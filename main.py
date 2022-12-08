@@ -21,6 +21,7 @@ firefoxOptions.add_argument('--allow-running-insecure-content')
 firefoxOptions.binary = FIREFOXPATH
 
 """
+Для клонирвания проекта с Гитхаба нужно
 
 ПАПКИ
 screen_house - скрины домов
