@@ -21,10 +21,6 @@ firefoxOptions.add_argument('--allow-running-insecure-content')
 firefoxOptions.binary = FIREFOXPATH
 
 """
-Для клонирвания проекта с Гитхаба нужно
-
-
-
 ПАПКИ
 screen_house - скрины домов
 screen_plot - скрины участков
@@ -291,10 +287,11 @@ def get_info_plot(URLs):
 
         try:
             active = browser.find_element(By.XPATH, "//div[@data-name='OfferUnpublished']")
+            print('active ', active)
         except:
             active = None
 
-        if active:
+        if active == None:
             active = "Не активна"
             dict_plot[count_house] = {
                 "Информация, опубликованная на сайте": URL,
@@ -313,9 +310,8 @@ def get_info_plot(URLs):
                 "Цена предложеня": None,
                 'Активность объявления': active
             }
-        else:
-
-            print('active ---> ', active)
+        if  active != None:
+            active = 'Активна'
             try:
 
                 close_pop = browser.find_elements(By.XPATH, "//button[@type='button']")[-1]
@@ -416,6 +412,7 @@ def get_info_plot(URLs):
                         "Цена предложеня": total_price,
                         'Активность объявления': active
             }
+    browser.quit()
     return dict_plot
 
 def create_excel(dict_house, dict_plot):
@@ -425,7 +422,7 @@ def create_excel(dict_house, dict_plot):
     df1 = pd.DataFrame.from_dict(dict_plot)
     df1 = df1.reset_index()
     df1 = df1.rename(columns={'index': 'Показатель'})
-    path = "/Users/miroslav/PycharmProjects/cian/excel/Data.xlsx"
+    path = "./excel/Data.xlsx"
     writer = pd.ExcelWriter(path, engine='xlsxwriter')
     df.to_excel(writer, sheet_name='Расчет ДОМ')
     df1.to_excel(writer, sheet_name='Расчет УЧАСТОК')
