@@ -23,6 +23,8 @@ firefoxOptions.binary = FIREFOXPATH
 """
 Для клонирвания проекта с Гитхаба нужно
 
+
+
 ПАПКИ
 screen_house - скрины домов
 screen_plot - скрины участков
@@ -444,6 +446,17 @@ def crop(png_image_name):
         img_left = im.crop(img_left_area)
         img_left.save(png_image_name)
 
+def open_excel():
+    filepath = './excel/Data.xlsx'
+    import subprocess, os, platform
+    if platform.system() == 'Darwin':  # macOS
+        subprocess.call(('open', filepath))
+    elif platform.system() == 'Windows':  # Windows
+        os.startfile(filepath)
+    else:  # linux variants
+        subprocess.call(('xdg-open', filepath))
+
+
 if __name__ == '__main__':
 
     # Здесь задаются ссылки на циан объекты - дома
@@ -468,16 +481,12 @@ if __name__ == '__main__':
     dict_plot = get_info_plot(URLs_plot)
     create_excel(dict_house, dict_plot)
 
+    # get screenshots
     get_screen(adress, count)
 
-    filepath = './excel/Data.xlsx'
-    import subprocess, os, platform
-    if platform.system() == 'Darwin':  # macOS
-        subprocess.call(('open', filepath))
-    elif platform.system() == 'Windows':  # Windows
-        os.startfile(filepath)
-    else:  # linux variants
-        subprocess.call(('xdg-open', filepath))
+    # open excel
+    open_excel()
+
 
 
 
